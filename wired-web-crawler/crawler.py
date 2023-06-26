@@ -14,4 +14,22 @@ for story in stories:
         if '#' not in story_href:
             if story_href not in story_array: 
                 story_array.append(story_href)
-                print(story_href)
+                story_url = "https://www.wired.com"+story_href
+                print(story_url)
+                print("----------------------------------------------------------")
+
+                article_page = requests.get(story_url, headers=headers)
+                article_soup = BeautifulSoup(article_page.content, 'html.parser')
+
+                article_title = article_soup.find('meta', property="og:title")['content']
+                article_author = article_soup.find('meta', property="article:author")['content']
+                article_description = article_soup.find('meta', {"name":"description"})['content']
+                article_image = article_soup.find('meta', property="og:image")['content']
+                article_tags = article_soup.find('meta', {"name":"news_keywords"})['content']
+
+                print(article_title)
+                print(article_author)
+                print(article_description)
+                print(article_image)
+                print(article_tags)
+
